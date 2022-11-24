@@ -3,22 +3,30 @@ package com.practice.config;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class BrowserSetup {
 
-	public static void main(String[] args) throws InterruptedException {
-		
-		ChromeOptions chrome = new ChromeOptions();
-		WebDriverManager.chromedriver().setup();
-		WebDriver driver = new ChromeDriver(chrome);
-		driver.get("https://www.youtube.com/watch?v=LPT7v69guVY&ab_channel=AutomationStepbyStep");
-		Thread.sleep(3000);
-		String title = driver.getTitle();
-		System.out.println(title);
-		Thread.sleep(3000);
-		driver.quit();
+	String browser;
+	
+	static public WebDriver driver;
+	public BrowserSetup(String browser){
+		this.browser=browser;
+		if(this.browser.equalsIgnoreCase("chrome")) {
+			ChromeOptions option = new ChromeOptions();
+			WebDriverManager.chromedriver().setup();
+			driver = new ChromeDriver(option);
+		}
+		else if(browser.equalsIgnoreCase("firefox")) {
+			FirefoxOptions option = new FirefoxOptions();
+			WebDriverManager.firefoxdriver().setup();
+			driver = new FirefoxDriver(option);
+		}
+		else {
+			System.out.println("Browser is not matching/incompatable browsers");
+		}
 	}
-
 }
